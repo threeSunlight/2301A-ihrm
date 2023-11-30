@@ -4,6 +4,7 @@ function resolve(dir) {
   /**相对路径 */
   return path.join(__dirname, dir)
 }
+
 module.exports = defineConfig({
   transpileDependencies: true,
   /**关闭保存时候 代码格式化校验 */
@@ -45,29 +46,19 @@ module.exports = defineConfig({
        * api: https://ihrm-java.itheima.net/login
        * 原本请求的路径 https://ihrm-java.itheima.net/api/login
        *  路径重写https://ihrm-java.itheima.net/login
+       * 开发环境: https://ihrm-java.itheima.net/api
+       * 测试环境: https://ihrm-java-test.itheima.net/api
        */
-      "/api": {
+      [process.env.VUE_APP_IDENT]: {
         /**配置代理默认开启代理方式 */
         changeOrigin: true,
         /**如果是http接口，需要配置该参数  */
         secure: false,
         /**配置代理路径 */
-        target: "https://ihrm-java.itheima.net/api",
+        target: process.env.VUE_APP_URL,
         /**路径重写,向后端发起服务的时候,不带代理标识 */
         pathRewrite: {
-          "^/api": ""
-        }
-      },
-      "/apis": {
-        /**配置代理默认开启代理方式 */
-        changeOrigin: true,
-        /**如果是http接口，需要配置该参数  */
-        secure: false,
-        /**配置代理路径 */
-        target: "https://api.shop.eduwork.cn",
-        /**路径重写,向后端发起服务的时候,不带代理标识 */
-        pathRewrite: {
-          "^/apis": ""
+          ["^" + process.env.VUE_APP_IDENT]: ""
         }
       }
     }

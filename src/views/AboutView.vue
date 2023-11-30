@@ -16,8 +16,9 @@ export default {
     Helloword
   },
   created() {
+    console.log(process.env)
     axios
-      .post("/api/sys/login", {
+      .post(process.env.VUE_APP_IDENT + "/sys/login", {
         mobile: "17764049967",
         password: 123456
       })
