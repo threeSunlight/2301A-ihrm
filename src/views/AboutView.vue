@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import axios from "axios"
 import Helloword from "$components/HelloWorld.vue"
 export default {
   data() {
@@ -17,8 +16,8 @@ export default {
   },
   created() {
     console.log(process.env)
-    axios
-      .post(process.env.VUE_APP_IDENT + "/sys/login", {
+    this.$http
+      .post(this.$http.addURL("/sys/login"), {
         mobile: "17764049967",
         password: 123456
       })
