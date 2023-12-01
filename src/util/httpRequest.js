@@ -25,6 +25,8 @@
 import axios from "axios"
 import { MessageBox, Loading } from "element-ui"
 import DEFAULTSTATUS from "./default"
+import { getToken, removeToken } from "./auth"
+import router from "@/router/index"
 /**放loading */
 let loadingInstance
 
@@ -46,11 +48,10 @@ const http = axios.create({
  */
 http.interceptors.request.use(
   (config) => {
-    /***
-     * TODO: 封装token,随后回来封装
-     */
+    /**将token封装到headers中 */
+    config.headers["Authorization"] = "Bearer " + getToken()
+    /**loading加载 */
     loadingInstance = Loading.service({ fullscreen: true })
-    // config.headers["X-Access-Token"] = getToken() // 请求头带上token
     return config
   },
   (error) => {
@@ -63,24 +64,25 @@ http.interceptors.request.use(
  */
 http.interceptors.response.use(
   (response) => {
+    /**关闭loading加载 */
     loadingInstance.close()
-    if (response.data && response.data.status === 2) {
+    console.log(response, "response")
+    if (response.data && response.data.code === 10002) {
       // 401, token失效
-      /**
-       * TODO: 401用户登录
-       */
-      //  // resetLoginInfo()
-      //   router.push({
-      //     name: "login"
-      //   })
+      removeToken()
+      // 跳转到登录页面
+      router.push({
+        name: "login"
+      })
     }
-    return response
+    return response.data
   },
   (error) => {
     let title = ""
     let message = ""
     loadingInstance.close()
     if (error && error.response) {
+      console.log(error)
       /**后端返回的报错的信息 */
       message = error.response.data.message
       // 401, token失效
@@ -90,37 +92,37 @@ http.interceptors.response.use(
         case DEFAULTSTATUS.ERRORPRO:
           title = "错误请求"
           break // 停止循环
-        case 401:
+        case DEFAULTSTATUS.UNAUTHORIZED:
           title = "资源未授权"
           break
-        case 403:
+        case DEFAULTSTATUS.ACCESSFORBIDDEN:
           title = "禁止访问"
           break
-        case 404:
+        case DEFAULTSTATUS.NOTFOUND:
           title = "未找到所请求的资源"
           break
-        case 405:
+        case DEFAULTSTATUS.NOTALLOW:
           title = "不允许使用该方法"
           break
-        case 408:
+        case DEFAULTSTATUS.TIMEOUT:
           title = "请求超时"
           break
-        case 500:
+        case DEFAULTSTATUS.SERVERERROE:
           title = "内部服务器错误"
           break
-        case 501:
+        case DEFAULTSTATUS.UNREALIZED:
           title = "未实现"
           break
-        case 502:
+        case DEFAULTSTATUS.GATEWAY:
           title = "网关错误"
           break
-        case 503:
+        case DEFAULTSTATUS.SERVICEUN:
           title = "服务不可用"
           break
-        case 504:
+        case DEFAULTSTATUS.GATEWAYTIMEOUT:
           title = "网关超时"
           break
-        case 505:
+        case DEFAULTSTATUS.UNSUPPORT:
           title = "HTTP版本不受支持"
           break
         default:
@@ -139,12 +141,8 @@ http.interceptors.response.use(
 )
 
 /**封装动态代理标识
- * process.env.VUE_APP_IDENT
- *url : /login
  */
 http.addURL = function (url) {
-  console.log(url)
-  console.log(process.env.VUE_APP_IDENT + url)
   return process.env.VUE_APP_IDENT + url
 }
 
