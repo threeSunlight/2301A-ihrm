@@ -5,6 +5,8 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
+const target = process.env.VUE_APP_MOCKFLAG == "true" ? process.env.VUE_APP_MOCKURL : process.env.VUE_APP_URL
+
 module.exports = defineConfig({
   transpileDependencies: true,
   /**关闭保存时候 代码格式化校验 */
@@ -36,7 +38,7 @@ module.exports = defineConfig({
     /**关闭安全网络校验 */
     https: false,
     /**true打开浏览器 */
-    open: true,
+    open: false,
     /***代理proxy */
     proxy: {
       /**代理标识 */
@@ -55,7 +57,7 @@ module.exports = defineConfig({
         /**如果是http接口，需要配置该参数  */
         secure: false,
         /**配置代理路径 */
-        target: process.env.VUE_APP_URL,
+        target,
         /**路径重写,向后端发起服务的时候,不带代理标识 */
         pathRewrite: {
           ["^" + process.env.VUE_APP_IDENT]: ""

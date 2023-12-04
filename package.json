@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "serve:mock": "vue-cli-service serve & nodemon ./mock/serve.js",
     "build": "vue-cli-service build",
     "build:test": "vue-cli-service build --mode testing",
     "build:dev": "vue-cli-service build --mode development",
@@ -11,14 +12,17 @@
     "prettier": "prettier --write .",
     "prepare": "husky install",
     "pre-commit": "lint-staged",
-    "commit": "cz"
+    "commit": "cz",
+    "mockExpress": "nodemon ./mock/serve.js"
   },
   "dependencies": {
     "axios": "^1.6.2",
     "babel-preset-es2015": "^6.24.1",
     "core-js": "^3.8.3",
     "element-ui": "^2.15.14",
+    "express": "^4.18.2",
     "js-cookie": "^3.0.5",
+    "mockjs": "^1.1.0",
     "script-ext-html-webpack-plugin": "^2.1.5",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",

@@ -8,6 +8,16 @@
     <router-view />
   </div>
 </template>
+<script>
+import * as API from "@/api/api"
+export default {
+  created() {
+    API.login({ username: "name" }).then((res) => {
+      console.log(res)
+    })
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
