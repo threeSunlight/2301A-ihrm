@@ -1,91 +1,93 @@
 <template>
-  <div>
-    <el-table :data="tableData" border style="width: 100%">
-      <el-table-column fixed prop="date" label="日期" width="150"> </el-table-column>
-      <el-table-column prop="name" label="姓名" width="120"> </el-table-column>
-      <el-table-column prop="province" label="省份" width="120"> </el-table-column>
-      <el-table-column prop="city" label="市区" width="120"> </el-table-column>
-      <el-table-column prop="address" label="地址" width="300"> </el-table-column>
-      <el-table-column prop="zip" label="邮编" width="120"> </el-table-column>
-      <el-table-column fixed="right" label="操作" width="100">
-        <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row, 'view')" type="text" size="small">查看</el-button>
-          <el-button type="text" size="small" @click="handleClick(scope.row, 'editor')">编辑</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!--
-      3组: 声明一个变量,传递给子组件,子组件通过v-show和v-if判断,传过去的变量能否被1或2整除,整除显示,不整除隐藏,三元表达式
-			点击关闭,写一个子传父的事件,在减1
-			2组: 绑定ref,获取子组件的方法,控制显隐,子组件件点击取消,子传父,复制为false
-			1组: 定义一个变量,点击v-show
-			4组: 父组件.sync,传过去,点击查看,
-		 -->
-    <ViewAndEditor v-if="ViewAndEditorVisibles" ref="ViewAndEditorRef" @closeDialog="closeDialog" />
-  </div>
+  <div>组织架构</div>
   <!-- 弹框 -->
 </template>
 
 <script>
-import ViewAndEditor from "./ViewAndEditor.vue"
+/**
+ * 业务判断步骤,
+ * 第一步: 判断pid = -1,
+ * 第二步: 循环判断,pid="", push到chuidren中
+ * 第三部: 判断,pid=id,push到children
+ * {
+		"id": "604e115c7bfcfa45d019d3e9",
+		"pid": "-1",
+		"name": "传智教育",
+		"code": "1",
+		"introduce": "程序员的摇篮",
+		"createTime": "2023-11-17 10:04:22"
+		},
+		我们想要的数据结构
+		[
+			{
+				"id": "604e115c7bfcfa45d019d3e9",
+				"pid": "-1",
+				"name": "传智教育",
+				"code": "1",
+				"introduce": "程序员的摇篮",
+				"createTime": "2023-11-17 10:04:22",
+				children: [
+					{
+						"id": "",
+						"pid": "",
+						"name": "",
+						"code": "1",
+						"introduce": "程序员的摇篮",
+						"createTime": "2023-11-17 10:04:22",
+						children: [{
+									"id": "",
+							"pid": "",
+							"name": "",
+							"code": "1",
+							"introduce": "程序员的摇篮",
+							"createTime": "2023-11-17 10:04:22",
+					}]
+				]
+			}
+		]
+ */
+import * as API from "@/api/api"
 export default {
   name: "DepartementsValue",
-  components: {
-    ViewAndEditor
-  },
-
-  data() {
-    return {
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1517 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1519 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1516 弄",
-          zip: 200333
-        }
-      ],
-      ViewAndEditorVisibles: false
-    }
+  created() {
+    API.departList().then((res) => {
+      console.log(res)
+      let result = this.transListToTreeData(res.data.depts, "")
+      console.log(result, "55")
+    })
   },
   methods: {
-    handleClick(row, type) {
-      console.log(row) // DOM元素更新是异步的
-      this.ViewAndEditorVisibles = true
-
-      this.$nextTick(() => {
-        // console.log(this.$refs.ViewAndEditorRef, "82")
-        this.$refs.ViewAndEditorRef.init(row, type)
+    /**
+     * pid = -1这个特殊情况外,
+     * pid= "" // 父节点
+     * pid= id // 父节点下面子节点
+     * 总结: 先找到根节点,
+     * 永远对比得是pid和id,
+     * 然后把id传递过去,将获取到的子节点进行添加
+     * 然后再想id的item去添加children节点
+     *
+     * 第一步: 对比 ""拿到父节点,push到新的数组中
+     * 第二步: 根据父节点的id对比pid,拿到相关的children,push到children中
+     *
+     */
+    transListToTreeData(list, id) {
+      var arr = []
+      // 遍历数组 一条一条的去找
+      // 从哪里开始找 我怎么知道找到的是对的呢？
+      // 树遍历一般先找到根
+      // 如果pid为空 表示他是根, 他是第一级的节点
+      list.forEach((item) => {
+        if (item.pid === id) {
+          // 认为找了第一级的节点  找pid等于当前item.id的节点
+          const children = this.transListToTreeData(list, item.id)
+          if (!item.children) {
+            // 如果长度大于0 表示我有孩子
+            item.children = children
+          }
+          arr.push(item) // 当前节点
+        }
       })
-    },
-    /**关闭弹框 */
-    closeDialog() {
-      this.ViewAndEditorVisibles = false
+      return arr
     }
   }
 }

@@ -3,12 +3,9 @@
  * 第二步:  封装返回的登录接口
  */
 
-import http from "../utils/httpRequest"
+import http from "../util/httpRequest"
 
 // 登录
 const login = (params) => http.post(http.addURL("/sys/login"), params)
 
-/**组织架构 */
-const departList = () => http.get(http.addURL("/company/department"))
-
-export { login, departList }
+export { login }
