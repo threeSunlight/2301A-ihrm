@@ -44,14 +44,19 @@ const http = axios.create({
 })
 
 /**
- * 请求拦截
+ * 请求拦截,我们发送请求触发的地方
  */
 http.interceptors.request.use(
   (config) => {
     /**将token封装到headers中 */
     config.headers["Authorization"] = "Bearer " + getToken()
     /**loading加载 */
-    loadingInstance = Loading.service({ fullscreen: true })
+    loadingInstance = Loading.service({
+      fullscreen: true,
+      text: "加载中...",
+      target: ".el-main",
+      background: "rgba(0, 0, 0, 0.8)"
+    })
     return config
   },
   (error) => {
@@ -60,10 +65,11 @@ http.interceptors.request.use(
 )
 
 /***
- * 响应拦截
+ * 响应拦截,服务器返回给我们信息,换句话说(处理服务端返回信息)
  */
 http.interceptors.response.use(
   (response) => {
+    console.log(response, "响应拦截response")
     /**关闭loading加载 */
     loadingInstance.close()
     console.log(response, "response")
@@ -82,10 +88,17 @@ http.interceptors.response.use(
     let message = ""
     loadingInstance.close()
     if (error && error.response) {
-      console.log(error)
       /**后端返回的报错的信息 */
       message = error.response.data.message
-      // 401, token失效
+      // 401token失效
+      if (error.response.status === DEFAULTSTATUS.UNAUTHORIZED) {
+        // 移除token信息
+        removeToken()
+        // 跳转到登录页面
+        router.push({
+          name: "login"
+        })
+      }
       switch (
         error.response.status // 跨域存在获取到的状态码的情况, status(随后端定义变化而变化,code)
       ) {

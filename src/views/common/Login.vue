@@ -134,7 +134,7 @@ export default {
                 duration: 10000,
                 type: "success"
               })
-              this.$router.push("./home")
+              this.$router.push("/")
             } else {
               this.$message.error(message)
             }
