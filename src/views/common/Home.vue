@@ -106,7 +106,8 @@
 </template>
 <script>
 import Lang from "@/components/lang"
-import FullScreen from "@/components/ScreenFull"
+import FullScreen from "@/components/ScreenFulls"
+
 export default {
   components: {
     Lang,
@@ -164,7 +165,7 @@ i {
   div {
     display: inline-block;
   }
-  .left {
+  & .left {
     float: left;
     & .app-breadcrumb {
       font-size: 18px;
@@ -185,9 +186,12 @@ i {
       color: #fff !important;
     }
   }
-  & .right {
+  .right {
     float: right;
     margin-right: 20px;
+    & div {
+      margin-right: 10px;
+    }
   }
 }
 .asideCollapse {
