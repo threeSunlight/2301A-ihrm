@@ -1,6 +1,6 @@
 export default {
   test: {
-    companyName: "Jiangsu Chuanzhi Podcast Education Technology",
+    name: "Jiangsu Chuanzhi Podcast Education Technology",
     Experience: "Experience"
   },
   route: {

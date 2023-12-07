@@ -76,7 +76,7 @@
             </svg>
           </div>
           <!-- 中间字体 -->
-          <div class="app-breadcrumb">{{ $t("test.companyName") }}</div>
+          <div class="app-breadcrumb">{{ $t("test.name") }}</div>
           <!-- 体验版 -->
           <div class="breadBtn">体验版</div>
         </div>

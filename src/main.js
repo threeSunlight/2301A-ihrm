@@ -5,7 +5,7 @@ import store from "./store"
 import http from "./utils/httpRequest"
 import "@/styles/index.scss" // global css
 import "@/icons"
-import VueI18n from "vue-i18n"
+
 //引入element处理语言
 import ElementLocale from "element-ui/lib/locale"
 import i18n from "./language/index"
@@ -93,8 +93,6 @@ import {
 } from "element-ui"
 
 ElementLocale.i18n((key, value) => i18n.t(key, value))
-
-Vue.use(VueI18n)
 
 Vue.config.productionTip = false
 Vue.use(Pagination)
