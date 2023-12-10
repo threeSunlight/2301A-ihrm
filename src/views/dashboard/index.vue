@@ -4,10 +4,10 @@
     <el-card class="header-card">
       <div class="header-card-div">
         <div class="headImg">
-          <el-image :src="defaultImg" />
+          <el-image :src="defaultImg || staffPhoto" v-imagerror="defaultImg" />
         </div>
         <div class="headInfoTip">
-          <p class="firstChild">早安，{{ userInfo.username }}，祝你开心每一天！</p>
+          <p class="firstChild">早安，{{ username }}，祝你开心每一天！</p>
           <p class="lastChild">{{ userInfo.username }} | {{ userInfo.company }} - {{ userInfo.departmentName }}</p>
         </div>
       </div>
@@ -92,7 +92,7 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState } from "vuex"
+import { mapActions, mapGetters } from "vuex"
 import radar from "./comonents/radar.vue"
 import workCalendar from "./comonents/work-calendar.vue"
 import helpSrc from "./comonents/helpSrc.vue"
@@ -108,7 +108,10 @@ export default {
       defaultImg: require("../../assets/common/head.jpg")
     }
   },
-  computed: mapState("users", ["userInfo"]), // user 模块名称)
+  // computed: mapState("users", ["userInfo"]), // user 模块名称)
+  computed: {
+    ...mapGetters(["username", "staffPhoto", "userInfo"])
+  },
   methods: {
     ...mapActions("users", ["getUserInfo"])
   },
