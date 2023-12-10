@@ -5,7 +5,7 @@ import store from "./store"
 import http from "./utils/httpRequest"
 import "@/styles/index.scss" // global css
 import "@/icons"
-
+// import "./styles/element-variables.scss"
 //引入element处理语言
 import ElementLocale from "element-ui/lib/locale"
 import i18n from "./language/index"

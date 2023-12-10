@@ -72,7 +72,7 @@ http.interceptors.response.use(
     console.log(response, "响应拦截response")
     /**关闭loading加载 */
     loadingInstance.close()
-    console.log(response, "response")
+
     if (response.data && response.data.code === 10002) {
       // 401, token失效
       removeToken()

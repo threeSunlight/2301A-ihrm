@@ -12,18 +12,21 @@ const login = (params) => http.post(http.addURL("/sys/login"), params)
 const departList = () => http.get(http.addURL("/company/department"))
 
 /**获取用户信息 */
-const getUserInfo = () =>
-  http.post(http.addURL("/sys/profile"), {
-    headers: {
+
+/**获取用户信息 */
+const getUserProfile = () =>
+  http({
+    method: "post",
+    url: http.addURL("/sys/profile"),
+    header: {
       "Content-Type": "application/x-www-form-urlencoded"
     }
   })
-
 /**获取用户头像 */
 /** *
  *
  * 获取用户的基本信息  现在写它 完全是为了显示头像,以及获取全部的信息
  * **/
-const getUserDetailById = (id) => http.put(http.addURL(`/sys/user/${id}`))
+const getUserDetailById = (id) => http.get(http.addURL(`/sys/user/${id}`))
 
-export { login, departList, getUserInfo, getUserDetailById }
+export { login, departList, getUserProfile, getUserDetailById }

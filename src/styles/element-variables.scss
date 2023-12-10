@@ -1,0 +1,17 @@
+/* src/styles/element-variables.scss */
+
+/* 改变主题色变量 */
+$--color-primary: #e2ff40;
+$--color-success: #f910b7;
+$--color-danger: #efe8e8;
+$--color-info: #a80bdc;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: "~element-ui/lib/theme-chalk/fonts";
+
+@import "~element-ui/packages/theme-chalk/src/index";
+
+/* 如遇到导出的变量值为 undefined 则本文件名需要改成 element-variables.module.scss */
+:export {
+  theme: $--color-primary;
+}

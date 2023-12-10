@@ -6,6 +6,7 @@ export const imagerror = {
   // 当指令作用的dom对象插入元素之后触发
   // 将指令作用在图片上
   inserted(dom, options) {
+    console.log(options, "options")
     dom.src = dom.src || options.value // 如果没有赋值的话 可以直接用默认图片
     // options是一个对象 value
     // 图片只要异常 就处理图片默认值

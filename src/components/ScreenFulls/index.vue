@@ -1,5 +1,5 @@
 <template>
-  <div @click="handlerClick">
+  <div style="display: inline-block" @click="handlerClick">
     <svg-icon :icon-class="isfull ? 'exit-fullscreen' : 'fullscreen'" class="svgIcon"> </svg-icon>
     <!-- <svg-icon icon-class="exit-fullscreen" class="svgIcon"> </svg-icon> -->
   </div>
@@ -45,8 +45,11 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-.svgIcon {
-  margin: 5px;
+<style lang="scss" scoped>
+.fullscreen {
+  width: 20px;
+  height: 20px;
+  color: #fff;
+  cursor: pointer;
 }
 </style>

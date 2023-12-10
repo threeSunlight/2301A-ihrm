@@ -5,7 +5,7 @@
       <el-image
         class="imgSet"
         :class="{ imgSetCoplles: isCollapse }"
-        :src="require('../../assets/common/logo.png')"
+        :src="require('../assets/common/logo.png')"
         fit="contain"
       ></el-image>
       <!-- 侧边栏 -->
@@ -38,7 +38,7 @@
           <i class="el-icon-setting"></i>
           <span slot="title">社保</span>
         </el-menu-item>
-        <el-menu-item index="6">
+        <el-menu-item index="/attendance">
           <i class="el-icon-setting"></i>
           <span slot="title">考勤</span>
         </el-menu-item>
@@ -84,12 +84,16 @@
         <div class="right">
           <!-- 右侧切换字体 -->
           <div>
+            <theme></theme>
+          </div>
+
+          <div>
             <Lang />
           </div>
           <!-- 全屏 -->
           <div><FullScreen /></div>
           <!-- 头像下拉展示 -->
-          <div>头像下拉</div>
+          <div></div>
         </div>
       </el-header>
       <el-main>
@@ -107,11 +111,12 @@
 <script>
 import Lang from "@/components/lang"
 import FullScreen from "@/components/ScreenFulls"
-
+import theme from "@/components/Theme"
 export default {
   components: {
     Lang,
-    FullScreen
+    FullScreen,
+    theme
   },
 
   data() {
@@ -199,8 +204,7 @@ i {
 }
 .el-aside {
   transition: width 0.28s;
-  background: url("../../assets/common/leftnavBg.png") no-repeat 0 100%,
-    -webkit-linear-gradient(bottom, #3d6df8, #5b8cff);
+  background: url("../assets/common/leftnavBg.png") no-repeat 0 100%, -webkit-linear-gradient(bottom, #3d6df8, #5b8cff);
   transition: width 0.28s;
 
   background-color: transparent;
@@ -224,10 +228,9 @@ i {
 }
 
 .el-main {
-  background-color: #e9eef3;
-  color: #333;
-  text-align: center;
-  line-height: 160px;
+  padding: 0 !important;
+  height: calc(100vh - 60px);
+  overflow-y: scroll;
 }
 
 body > .el-container {

@@ -1,8 +1,8 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
-
+import Layout from "../layout"
 Vue.use(VueRouter)
-
+// RBAC权限,根据不同的用户,返回不同的路径,返回不同的权限
 const routes = [
   // {
   //   path: "/",
@@ -20,12 +20,11 @@ const routes = [
 
   {
     path: "/",
-    name: "home",
     redirect: "/dashboard",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ "../views/common/Home.vue"),
+    component: Layout,
     children: [
       {
         path: "dashboard",
@@ -40,6 +39,14 @@ const routes = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ "../views/departments/index.vue")
+      },
+      {
+        path: "attendance",
+        name: "attendance",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ "../views/attendance/index.vue")
       }
     ]
   }
