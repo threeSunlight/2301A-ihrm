@@ -29,4 +29,7 @@ const getUserProfile = () =>
  * **/
 const getUserDetailById = (id) => http.get(http.addURL(`/sys/user/${id}`))
 
-export { login, departList, getUserProfile, getUserDetailById }
+/**员工列表信息 */
+const getuserList = (params) => http.get(http.addURL(`/sys/user`), { params })
+
+export { login, departList, getUserProfile, getUserDetailById, getuserList }

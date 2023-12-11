@@ -98,6 +98,8 @@ http.interceptors.response.use(
         router.push({
           name: "login"
         })
+        // 如果不想继续发出请求,就阻止
+        return Promise.reject(new Error("您的token已经超时"))
       }
       switch (
         error.response.status // 跨域存在获取到的状态码的情况, status(随后端定义变化而变化,code)

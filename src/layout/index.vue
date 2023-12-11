@@ -9,44 +9,7 @@
         fit="contain"
       ></el-image>
       <!-- 侧边栏 -->
-      <el-menu
-        default-active="1-4-1"
-        class="el-menu-vertical-demo"
-        :collapse="isCollapse"
-        background-color="transparent"
-        text-color="#fff"
-        active-text-color="#fff"
-        router
-      >
-        <el-menu-item index="/dashboard">
-          <i class="el-icon-menu"></i>
-          <span slot="title">首页</span>
-        </el-menu-item>
-        <el-menu-item index="2">
-          <i class="el-icon-menu"></i>
-          <span slot="title">员工</span>
-        </el-menu-item>
-        <el-menu-item index="3">
-          <i class="el-icon-document"></i>
-          <span slot="title">公司设置</span>
-        </el-menu-item>
-        <el-menu-item index="4">
-          <i class="el-icon-setting"></i>
-          <span slot="title">权限管理</span>
-        </el-menu-item>
-        <el-menu-item index="5">
-          <i class="el-icon-setting"></i>
-          <span slot="title">社保</span>
-        </el-menu-item>
-        <el-menu-item index="/attendance">
-          <i class="el-icon-setting"></i>
-          <span slot="title">考勤</span>
-        </el-menu-item>
-        <el-menu-item index="/deparments">
-          <i class="el-icon-setting"></i>
-          <span slot="title">组织架构</span>
-        </el-menu-item>
-      </el-menu>
+      <SideBar :isCollapse="isCollapse" />
     </el-aside>
     <el-container>
       <el-header>
@@ -99,7 +62,6 @@
       <el-main>
         <router-view></router-view>
       </el-main>
-      <el-footer>Footer</el-footer>
     </el-container>
   </el-container>
   <!--
@@ -112,11 +74,13 @@
 import Lang from "@/components/lang"
 import FullScreen from "@/components/ScreenFulls"
 import theme from "@/components/Theme"
+import SideBar from "./common/Side.vue"
 export default {
   components: {
     Lang,
     FullScreen,
-    theme
+    theme,
+    SideBar
   },
 
   data() {
@@ -135,29 +99,7 @@ export default {
 // .el-menu {
 //   width: 101%;
 // }
-.el-menu-item:hover {
-  color: #5b8cff !important;
-  i {
-    color: #5b8cff !important;
-    vertical-align: middle;
-  }
-}
-i {
-  display: inline-block !important;
-  font-size: 24px !important;
-  margin-right: 16px !important;
-  color: #fff !important;
-  vertical-align: middle;
-  font-family: "Courier New", Courier, monospace;
-}
-.el-menu {
-  border: none !important;
-}
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 101%;
-  min-height: 400px;
-  border: none !important;
-}
+
 .el-header,
 .el-footer {
   padding: 0 !important;
