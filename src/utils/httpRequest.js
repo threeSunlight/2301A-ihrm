@@ -25,7 +25,7 @@
 import axios from "axios"
 import { MessageBox } from "element-ui"
 import DEFAULTSTATUS from "./default"
-import { getToken, removeToken } from "./auth"
+import { getToken } from "./auth"
 import router from "@/router/index"
 /**放loading */
 // let loadingInstance
@@ -72,15 +72,6 @@ http.interceptors.response.use(
     console.log(response, "响应拦截response")
     /**关闭loading加载 */
     //loadingInstance.close()
-
-    if (response.data && response.data.code === 10002) {
-      // 401, token失效
-      removeToken()
-      // 跳转到登录页面
-      router.push({
-        name: "login"
-      })
-    }
     return response.data
   },
   (error) => {
@@ -88,18 +79,13 @@ http.interceptors.response.use(
     let message = ""
     // loadingInstance.close()
     if (error && error.response) {
+      console.log(error, "error")
       /**后端返回的报错的信息 */
       message = error.response.data.message
-      // 401token失效
       if (error.response.status === DEFAULTSTATUS.UNAUTHORIZED) {
-        // 移除token信息
-        removeToken()
-        // 跳转到登录页面
         router.push({
-          name: "login"
+          name: "/login"
         })
-        // 如果不想继续发出请求,就阻止
-        return Promise.reject(new Error("您的token已经超时"))
       }
       switch (
         error.response.status // 跨域存在获取到的状态码的情况, status(随后端定义变化而变化,code)

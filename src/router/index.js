@@ -6,8 +6,6 @@ import NProgress from "nprogress"
 import "nprogress/nprogress.css"
 import { getToken } from "@/utils/auth"
 Vue.use(VueRouter)
-// 一进页面请求接口,进行预加载
-store.dispatch("menuList/getpermission")
 
 // RBAC权限,根据不同的用户,返回不同的路径,返回不同的权限
 export const routes = [
@@ -98,6 +96,8 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
+    // 一进页面请求接口,进行预加载
+    store.dispatch("menuList/getpermission")
     setTimeout(() => {
       // 没有处理的初始化动态路由信息
       let initDynamic = store.state.menuList.newList
