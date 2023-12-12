@@ -7,6 +7,8 @@ const getters = {
   // 员工列表的总条数
   workerTotal: (state) => state.worker.total,
   // 员工列表
-  workertableList: (state) => state.worker.tableList
+  workertableList: (state) => state.worker.tableList,
+  // 筛选后的数组列表
+  menuNewList: (state) => state.menuList.newList
 }
 export default getters

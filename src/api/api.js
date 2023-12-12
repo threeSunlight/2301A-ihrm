@@ -32,4 +32,6 @@ const getUserDetailById = (id) => http.get(http.addURL(`/sys/user/${id}`))
 /**员工列表信息 */
 const getuserList = (params) => http.get(http.addURL(`/sys/user`), { params })
 
-export { login, departList, getUserProfile, getUserDetailById, getuserList }
+/**请求所有菜单 */
+const getMenuList = () => http.get(http.addURL(`/sys/permission`))
+export { login, departList, getUserProfile, getUserDetailById, getuserList, getMenuList }

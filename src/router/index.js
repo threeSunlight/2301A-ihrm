@@ -1,11 +1,24 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
+import store from "@/store"
 import Layout from "../layout"
+import NProgress from "nprogress"
+import "nprogress/nprogress.css"
+
 Vue.use(VueRouter)
 
 // 静态需要处理的路由信息
 /**
  * 将静态路由变成动态路由,我的动态路由信息是从接口请求过来的,我的路由表应该怎么配置
+ * 请求接口,动态路由再哪里去请求,我登录请求接口,立马调用请求接口.在路由前置守卫中,获取动态路由,
+ * 如何把动态路由和静态路由结合起来  router.addRoute()
+ *
+ * 我们的/sys/profile是每个人可以查看的单独路由信息,当前角色下的信息,只有路由信息,没有名称
+ * /sys/permission 所有的路由信息,有路由信息和名称
+ * 两者结合,可以筛选出 属于当前用户独特的路由加名称
+ *
+ * filters,筛选两个数组的相同数据
+ *
  */
 export const childrenRoutes = [
   {
@@ -98,8 +111,23 @@ export const routes = [
   }
 ]
 
+/**实例化路由,注册路由 ,完成路由表*/
 const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  NProgress.start()
+  console.log(store)
+  store.dispatch("menuList/getpermission")
+  setTimeout(() => {
+    console.log(store.getters.menuNewList, "store.getters.menuNewList")
+  }, 1000)
+
+  next()
+})
+
+router.afterEach(() => {
+  NProgress.done()
+})
 export default router
