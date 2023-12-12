@@ -23,12 +23,12 @@
  */
 
 import axios from "axios"
-import { MessageBox, Loading } from "element-ui"
+import { MessageBox } from "element-ui"
 import DEFAULTSTATUS from "./default"
 import { getToken, removeToken } from "./auth"
 import router from "@/router/index"
 /**放loading */
-let loadingInstance
+// let loadingInstance
 
 const http = axios.create({
   //  根路径
@@ -51,12 +51,12 @@ http.interceptors.request.use(
     /**将token封装到headers中 */
     config.headers["Authorization"] = "Bearer " + getToken()
     /**loading加载 */
-    loadingInstance = Loading.service({
-      fullscreen: true,
-      text: "加载中...",
-      target: ".el-main",
-      background: "rgba(0, 0, 0, 0.8)"
-    })
+    // loadingInstance = Loading.service({
+    //   fullscreen: true,
+    //   text: "加载中...",
+    //   target: ".el-main",
+    //   background: "rgba(0, 0, 0, 0.8)"
+    // })
     return config
   },
   (error) => {
@@ -71,7 +71,7 @@ http.interceptors.response.use(
   (response) => {
     console.log(response, "响应拦截response")
     /**关闭loading加载 */
-    loadingInstance.close()
+    //loadingInstance.close()
 
     if (response.data && response.data.code === 10002) {
       // 401, token失效
@@ -86,7 +86,7 @@ http.interceptors.response.use(
   (error) => {
     let title = ""
     let message = ""
-    loadingInstance.close()
+    // loadingInstance.close()
     if (error && error.response) {
       /**后端返回的报错的信息 */
       message = error.response.data.message

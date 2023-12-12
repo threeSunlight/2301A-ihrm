@@ -3,15 +3,20 @@ import { getUserProfile, getMenuList } from "@/api/api"
 const state = {
   permissionList: [],
   profileList: [],
-  newList: []
+  newList: [],
+  // 权限标识
+  permission: []
 }
 const mutations = {
   getpermis(state, data) {
     state.permissionList = data.data
+
     // console.log(state.permissionList, "permissionList")
   },
   getpro(state, data) {
     state.profileList = data.data.roles.menus
+    // 模拟接口返回数据
+    state.permission = ["employees:add", "employees:list", "employees:info", "employees:daochu"]
     // console.log(state.profileList, "profileList")
   },
   filterList(state, played) {
@@ -33,7 +38,8 @@ const actions = {
     let alliMenlist = await getMenuList()
     let singleList = await getUserProfile()
     commit("filterList", { alliMenlist, singleList })
-    commit("getpermis", singleList)
+    commit("getpermis", alliMenlist)
+    // 单人信息储存
     commit("getpro", singleList)
   }
 }

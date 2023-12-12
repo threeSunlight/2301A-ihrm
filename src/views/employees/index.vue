@@ -15,7 +15,9 @@
           </el-col>
           <el-col>
             <el-row type="flex" justify="end">
-              <el-button size="small" type="danger" @click="exportData">简单表头导出</el-button>
+              <el-button size="small" v-if="isAuth('employees:ooo')" type="danger" @click="exportData"
+                >简单表头导出</el-button
+              >
               <el-button size="small" type="info">复杂表头导出</el-button>
               <el-button size="small" type="success" @click="$router.push('/import')">excel导入</el-button>
               <el-button size="small" type="primary" @click="showDialog = true">新增员工</el-button>

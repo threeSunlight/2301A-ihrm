@@ -3,6 +3,7 @@ import App from "./App.vue"
 import router from "./router"
 import store from "./store"
 import http from "./utils/httpRequest"
+import { isAuth } from "@/utils/btnPermise"
 import "@/styles/index.scss" // global css
 import "@/icons"
 // import "./styles/element-variables.scss"
@@ -179,6 +180,7 @@ Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$notify = Notification
 Vue.prototype.$message = Message
 Vue.prototype.$http = http
+Vue.prototype.isAuth = isAuth
 /**循环注册每个自定义指令 */
 Object.keys(Direcives).forEach((key) => {
   //  挨个的注册全局自定义指令

@@ -13,7 +13,7 @@
 </template>
 <script>
 import SideItem from "./SideItem.vue"
-import { childrenRoutes } from "@/router"
+
 export default {
   name: "Side",
   components: {
@@ -22,7 +22,7 @@ export default {
   props: ["isCollapse"],
   data() {
     return {
-      routes: childrenRoutes
+      routes: JSON.parse(localStorage.getItem("Routes"))
     }
   }
 }

@@ -9,6 +9,8 @@ const getters = {
   // 员工列表
   workertableList: (state) => state.worker.tableList,
   // 筛选后的数组列表
-  menuNewList: (state) => state.menuList.newList
+  menuNewList: (state) => state.menuList.newList,
+  // 个人按钮权限标识
+  btnPermission: (state) => state.menuList.permission
 }
 export default getters
