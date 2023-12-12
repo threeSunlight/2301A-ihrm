@@ -4,7 +4,7 @@ import store from "@/store"
 import Layout from "../layout"
 import NProgress from "nprogress"
 import "nprogress/nprogress.css"
-
+import { getToken } from "@/utils/auth"
 Vue.use(VueRouter)
 // 一进页面请求接口,进行预加载
 store.dispatch("menuList/getpermission")
@@ -88,29 +88,40 @@ const router = createRouter()
 /**路由前置守卫 */
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  setTimeout(() => {
-    // 没有处理的初始化动态路由信息
-    let initDynamic = store.state.menuList.newList
-    let Dynamic = []
-    initDynamic.forEach((childRoute) => {
-      // 符合规则的一条子路由已经完成
-      let item = {
-        path: "/" + childRoute.code,
-        name: childRoute.code,
-        component: () => import(/* webpackChunkName: "about" */ `@/views/${childRoute.code}/index.vue`),
-        meta: {
-          icon: "setting",
-          title: childRoute.name // 这里为什么非要叫title? 因为layout组件中用到了这个组件
+  const admin = getToken()
+  console.log(admin, "admin")
+  console.log(!admin)
+  if (!admin) {
+    if (to.path !== "/login") {
+      next({ path: "/login" })
+    } else {
+      next()
+    }
+  } else {
+    setTimeout(() => {
+      // 没有处理的初始化动态路由信息
+      let initDynamic = store.state.menuList.newList
+      let Dynamic = []
+      initDynamic.forEach((childRoute) => {
+        // 符合规则的一条子路由已经完成
+        let item = {
+          path: "/" + childRoute.code,
+          name: childRoute.code,
+          component: () => import(/* webpackChunkName: "about" */ `@/views/${childRoute.code}/index.vue`),
+          meta: {
+            icon: "setting",
+            title: childRoute.name // 这里为什么非要叫title? 因为layout组件中用到了这个组件
+          }
         }
-      }
-      router.addRoute("layout", item)
-      // 放至空数组,供侧边栏使用
-      Dynamic.push(item)
-    })
-    Dynamic.unshift(Dashboard)
-    localStorage.setItem("Routes", JSON.stringify(Dynamic))
-  }, 1000)
-  next()
+        router.addRoute("layout", item)
+        // 放至空数组,供侧边栏使用
+        Dynamic.push(item)
+      })
+      Dynamic.unshift(Dashboard)
+      localStorage.setItem("Routes", JSON.stringify(Dynamic))
+    }, 1000)
+    next()
+  }
 })
 
 router.afterEach(() => {
