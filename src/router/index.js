@@ -6,7 +6,8 @@ import NProgress from "nprogress"
 import "nprogress/nprogress.css"
 
 Vue.use(VueRouter)
-
+// 一进页面请求接口,进行预加载
+store.dispatch("menuList/getpermission")
 // 静态需要处理的路由信息
 /**
  * 将静态路由变成动态路由,我的动态路由信息是从接口请求过来的,我的路由表应该怎么配置
@@ -119,7 +120,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   NProgress.start()
   console.log(store)
-  store.dispatch("menuList/getpermission")
+
   setTimeout(() => {
     console.log(store.getters.menuNewList, "store.getters.menuNewList")
   }, 1000)
